@@ -14,3 +14,5 @@ jobs:
         run: echo "My name is ${{ env.NAME }}"
       - name: Show Secrets
         run: echo "One fun secret is  ${{ secrets.BHUMI_SECRET }}"
+      - name: Show Variables
+        run: echo "My Dockerhub Username is ${{ vars.DOCKERHUB_USERNAME }}"
