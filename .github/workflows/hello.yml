@@ -18,6 +18,9 @@ jobs:
       - name: Say hello
         run: echo "Hello Dosto"
 
+      - name: welcome
+        run: echo "Welcome Dosto"
+
   repo-name:
     needs: greet
     runs-on: ubuntu-latest
