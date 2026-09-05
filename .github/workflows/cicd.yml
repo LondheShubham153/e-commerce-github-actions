@@ -3,6 +3,8 @@ name: CICD Demo
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
 
 jobs:
   # CI
