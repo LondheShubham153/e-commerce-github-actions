@@ -19,6 +19,7 @@ jobs:
         run: echo "Hello Dosto"
 
   repo-name:
+    needs: greet
     runs-on: ubuntu-latest
     steps:
       - name: Show Repository Name
