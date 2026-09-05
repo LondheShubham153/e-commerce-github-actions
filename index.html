@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova — Modern Store</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, Arial, sans-serif; color: #171717; background: #fafafa; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; }
+    .container { width: min(1180px, 92%); margin: auto; }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,.94); backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eee;
+    }
+    .nav { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
+    .nav-links { display: flex; gap: 28px; font-size: 14px; color: #555; }
+    .nav-links a:hover { color: #000; }
+    .cart { background: #111; color: #fff; padding: 11px 16px; border-radius: 999px; font-size: 14px; }
+
+    .hero {
+      margin-top: 28px; min-height: 430px; border-radius: 28px; overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.7), rgba(0,0,0,.08)),
+        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1800&q=85") center/cover;
+      display: flex; align-items: center; color: white;
+    }
+    .hero-content { max-width: 570px; padding: 55px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: 700; opacity: .8; }
+    h1 { font-size: clamp(42px, 6vw, 72px); line-height: .95; letter-spacing: -4px; margin: 16px 0; }
+    .hero p { font-size: 17px; line-height: 1.6; color: #eee; margin-bottom: 25px; }
+    .btn { display: inline-block; background: white; color: #111; padding: 13px 20px; border-radius: 999px; font-weight: 700; }
+
+    section { padding: 70px 0 10px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 25px; }
+    .section-head h2 { font-size: 32px; letter-spacing: -1.5px; }
+    .section-head span { color: #777; font-size: 14px; }
+
+    .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .card { background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; transition: .2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.08); }
+    .card img { width: 100%; height: 270px; object-fit: cover; display: block; background: #f3f3f3; }
+    .info { padding: 17px; }
+    .category { color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .name { font-weight: 700; margin: 7px 0 12px; }
+    .price-row { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-weight: 800; }
+    .add { width: 34px; height: 34px; border-radius: 50%; background: #111; color: white; }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 65px 0; }
+    .feature { background: #f1f1ed; padding: 25px; border-radius: 18px; }
+    .feature b { display: block; margin-bottom: 8px; }
+    .feature p { color: #666; font-size: 14px; line-height: 1.5; }
+
+    footer { margin-top: 50px; padding: 35px 0; border-top: 1px solid #eee; color: #777; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .products { grid-template-columns: repeat(2, 1fr); }
+      .features { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 560px) {
+      .hero-content { padding: 32px; }
+      h1 { letter-spacing: -2px; }
+      .products { grid-template-columns: 1fr; }
+      .card img { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">NOVA.</div>
+    <nav class="nav-links">
+      <a href="#">New arrivals</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Accessories</a>
+    </nav>
+    <button class="cart" onclick="showCart()">Cart (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">New season / 2026</div>
+      <h1>Everyday essentials, elevated.</h1>
+      <p>Thoughtfully designed pieces for modern everyday living. Clean, comfortable and made to last.</p>
+      <a class="btn" href="#shop">Shop collection →</a>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="section-head">
+      <h2>Featured products</h2>
+      <span>Curated for you</span>
+    </div>
+
+    <div class="products">
+      <article class="card">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80" alt="Minimal watch">
+        <div class="info">
+          <div class="category">Accessories</div>
+          <div class="name">Minimal Chronograph</div>
+          <div class="price-row"><span class="price">₹8,499</span><button class="add" onclick="addToCart()">+</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Running shoes">
+        <div class="info">
+          <div class="category">Footwear</div>
+          <div class="name">Urban Runner</div>
+          <div class="price-row"><span class="price">₹6,999</span><button class="add" onclick="addToCart()">+</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80" alt="Black backpack">
+        <div class="info">
+          <div class="category">Bags</div>
+          <div class="name">Everyday Backpack</div>
+          <div class="price-row"><span class="price">₹4,299</span><button class="add" onclick="addToCart()">+</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80" alt="Sunglasses">
+        <div class="info">
+          <div class="category">Accessories</div>
+          <div class="name">Aero Sunglasses</div>
+          <div class="price-row"><span class="price">₹2,499</span><button class="add" onclick="addToCart()">+</button></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="features">
+    <div class="feature"><b>Free shipping</b><p>Free delivery on orders above ₹999.</p></div>
+    <div class="feature"><b>Easy returns</b><p>Simple 14-day returns on eligible products.</p></div>
+    <div class="feature"><b>Secure checkout</b><p>Your payments and personal information stay protected.</p></div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 NOVA. — Built for modern shopping.</div>
+</footer>
+
+<script>
+  let count = 0;
+  function addToCart() {
+    count++;
+    document.getElementById("cartCount").textContent = count;
+  }
+  function showCart() {
+    alert(count ? `You have ${count} item${count > 1 ? "s" : ""} in your cart.` : "Your cart is empty.");
+  }
+</script>
+
+</body>
+</html>
