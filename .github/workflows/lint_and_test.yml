@@ -6,7 +6,7 @@ on:
     push:
 
 jobs:
-    code-linter:
+    code-linter-and-test:
         runs-on: ubuntu-latest
         steps:
             - name: Code Checkout
@@ -22,3 +22,6 @@ jobs:
               
             - name: Code Lint
               run: ruff check .
+
+            - name: Code Tests
+              run: pytest
