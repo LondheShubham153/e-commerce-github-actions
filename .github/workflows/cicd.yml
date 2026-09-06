@@ -2,9 +2,10 @@
 name: CICD Demo
 
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
+  # push:
+  #   paths-ignore:
+  #     - 'README.md'
+  workflow_dispatch:
 
 jobs:
   # CI

@@ -5,9 +5,10 @@ name: Hello
 
 # when the workflow runs
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
+  # push:
+  #   paths-ignore:
+  #     - 'README.md'
+  workflow_dispatch:
 
 # what the workflow does
 jobs:
