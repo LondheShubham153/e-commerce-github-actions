@@ -14,5 +14,5 @@ jobs:
 
 
             - name: Run docker container
-              run: docker compose up -d --no-cache --pull
+              run: docker compose up -d --build --force-recreate
               
