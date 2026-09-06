@@ -4,7 +4,10 @@ name: CICD Demo
 on:
   push:
     paths-ignore:
-      - 'README.md'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'    
 
 jobs:
   # CI
