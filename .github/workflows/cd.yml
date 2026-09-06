@@ -23,5 +23,5 @@ jobs:
 
 
             - name: Run docker container
-              run: docker compose up -d
+              run: whoami && docker compose up -d
               
