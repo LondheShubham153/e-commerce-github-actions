@@ -1,0 +1,27 @@
+# Goal: To deploy the built and tested image to an EC2 instance
+
+name: CD
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v7
+            
+            - name: Docker setup
+              uses: docker/setup-docker-action@v5
+
+            - name: Docker Login
+              uses: docker/login-action@v4
+              with:
+                username: ${{ vars.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
+            - name: Run docker container
+              run: docker compose up -d
+              

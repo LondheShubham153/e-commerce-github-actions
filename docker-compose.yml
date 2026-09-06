@@ -1,0 +1,5 @@
+services:
+  app:
+    image: trainwithshubham/e-commerce-python:latest
+    ports:
+      - "80:80"
