@@ -29,3 +29,6 @@ jobs:
             
             - name: Build and push
               uses: docker/build-push-action@v7
+              with:
+                push: true
+                tags: "${{ vars.DOCKERHUB_USERNAME }}/e-commerce-python:latest"
