@@ -40,7 +40,13 @@ jobs:
         uses: ./.github/workflows/docker_push.yml
     
     # Deploy
-    # deploy:
-    #     secrets: inherit
-    #     needs: [code,build-and-push]
-    #     uses: ./.github/workflows/cd.yml
+    deploy:
+        secrets: inherit
+        needs: [docker-push]
+        uses: ./.github/workflows/cd.yml
+
+    # DAST (Shift right)
+    dast:
+        secrets: inherit
+        needs: [deploy]
+        uses: ./.github/workflows/dast.yml
