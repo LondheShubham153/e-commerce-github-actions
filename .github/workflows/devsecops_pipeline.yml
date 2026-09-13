@@ -1,0 +1,28 @@
+# Goal is to call the workflows in the order to implement shift left
+
+name: DevSecOps 
+
+on:
+    push:
+
+jobs:
+    # Secrets Scan
+    secret-scan:
+        uses: ./.github/workflows/secrets-scanning.yml
+        secrets: inherit
+
+    # Code
+    code:
+        uses: ./.github/workflows/lint_and_test.yml
+    
+    # Build
+    # build-and-push:
+    #     secrets: inherit
+    #     needs: code
+    #     uses: ./.github/workflows/docker.yml
+    
+    # Deploy
+    # deploy:
+    #     secrets: inherit
+    #     needs: [code,build-and-push]
+    #     uses: ./.github/workflows/cd.yml
