@@ -30,7 +30,7 @@ jobs:
     # Build & Scan
     build-and-scan:
         secrets: inherit
-        needs: code
+        needs: dependency-scan
         uses: ./.github/workflows/trivy_scans.yml
     
     # Deploy
