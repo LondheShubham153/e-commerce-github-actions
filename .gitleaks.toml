@@ -1,0 +1,37 @@
+# Gitleaks configuration file
+title = "E-commerce Project Gitleaks Configuration"
+
+# 1. Inherit all default Gitleaks patterns (highly recommended)
+[extend]
+useDefault = true
+
+# 2. Add your own custom detection rules
+[[rules]]
+id = "custom-api-key"
+description = "Detects internal custom team API keys"
+regex = '''(?i)secret-[a-z0-9]{32}'''
+secretGroup = 0
+tags = ["key", "internal", "mycompany","secret"]
+
+[[rules]]
+id = "slack-webhook-strict"
+description = "Stricter pattern matching for Slack incoming webhooks"
+regex = '''https://hooks\.slack\.com/services/T[A-Z0-9_]{8}/B[A-Z0-9_]{8}/[A-Za-z0-9_]{24}'''
+keywords = ["://slack.com"]
+
+# 3. Global allowlist to prevent false positives
+[allowlist]
+description = "Global allowlist for tests and documentation examples"
+
+# Skip entire paths or specific file patterns using regex
+paths = [
+    '''(^|/)nested/testdata/''',
+    '''_test\.go$''',
+    '''.*\.md$'''
+]
+
+# Skip specific known-safe fake/mock strings globally
+regexes = [
+    '''(?i)(your[_-]?api[_-]?key|example|dummy|placeholder|changeme|xxxx+)''',
+    '''mycompany-mockkey1234567890abcdefghijk'''
+]
