@@ -13,6 +13,7 @@ jobs:
 
     # Code
     code:
+        needs: secret-scan
         uses: ./.github/workflows/lint_and_test.yml
     
     # Build
