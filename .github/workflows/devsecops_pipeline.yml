@@ -26,12 +26,12 @@ jobs:
     dependency-scan:
         needs: sast
         uses: ./.github/workflows/dependency_scan.yml
-        
-    # Build
-    # build-and-push:
-    #     secrets: inherit
-    #     needs: code
-    #     uses: ./.github/workflows/docker.yml
+
+    # Build & Scan
+    build-and-scan:
+        secrets: inherit
+        needs: code
+        uses: ./.github/workflows/trivy_scans.yml
     
     # Deploy
     # deploy:
