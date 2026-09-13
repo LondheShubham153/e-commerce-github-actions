@@ -1,0 +1,24 @@
+# Goal: To scan the dependencies / libraries installed in the app
+
+name: Dependency Scan
+
+on:
+    workflow_call:
+
+jobs:
+    dependency-scan:
+        strategy:
+          matrix:
+            python-versions: ['3.12','3.13','3.14']
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout Code
+          uses: actions/checkout@v7
+
+        - name: Setup Python
+          uses: actions/setup-python@v7
+          with:
+            python-version: ${{ matrix.python-versions }}
+        
+        - name: Dependency Scan for Pip
+          uses: pypa/gh-action-pip-audit@v1.1.0
