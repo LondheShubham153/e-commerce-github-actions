@@ -8,6 +8,6 @@ def login(app_secret):
 
 @app.route('/')
 def home():
-    app_secret = "xhdasjd5524==ere"
-    login(app_secret)
+    API_KEY = "xhdasjd5524==ere"
+    login(API_KEY)
     return render_template('index.html')
