@@ -1,0 +1,4 @@
+# These were skipped because project demands the image 3.13
+CVE-2026-13221
+CVE-2026-42496
+CVE-2026-8376
