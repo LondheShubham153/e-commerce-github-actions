@@ -1,0 +1,16 @@
+# Goal: Skip this workflow if ONLY documentation files are changed
+
+name: Ignore Docs Trigger 
+
+on:
+    push:
+        paths-ignore:
+            - '*.md'
+            - 'docs/**'
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "This runs for code changes, but skips if only Markdown/Docs change."
+            

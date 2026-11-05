@@ -1,0 +1,22 @@
+# Check pre-installed software on GitHub-hosted ubuntu-latest runner
+name: Day 42 - Pre-installed Tools
+on:
+  workflow_dispatch:
+
+jobs:
+  explore-runer: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Software Versions
+        run: |
+          echo "--- Docker Version ---"
+          docker --version
+
+          echo "--- Node.js Version ---"
+          node --version
+
+          echo "--- Python Version ---"
+          python --version
+
+          echo "--- Git Version ---"
+          git --version

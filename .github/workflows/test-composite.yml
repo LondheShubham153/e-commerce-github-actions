@@ -1,0 +1,29 @@
+# Goal: A workflow to test our custom local composite actions.
+
+name: Test composite actions
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+jobs:
+    test-custom-action:
+        runs-on: ubuntu-latest
+        steps:
+            # we must checkout the code first, otherwise the runner won't find the custom action in the repo
+            - name: Checkout code 
+              uses: actions/checkout@v7
+              
+            - name: Run setup and greet
+              id: greeting-actions
+              uses: ./.github/actions/setup-and-greet
+              with:
+                name: 'Rashid'
+                language: 'hi'
+
+            - name: Print action output 
+              run: | 
+                echo "Greeted successfully: ${{ steps.greeting-action.outputs.greeted }}"
+                

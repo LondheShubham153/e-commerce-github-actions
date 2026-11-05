@@ -1,0 +1,16 @@
+# Goal: Trigger workflow from external API call (like a slack bot or external system).
+
+name: External Trigger
+
+on:
+    repository_dispatch:
+        types: [deploy-request]
+
+jobs:
+    handle-dispatch:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print External Payload 
+              run: |
+                echo "🚀 Received external trigger request!"
+                echo "Target Environment: ${{ github.event.client_payload.environment }}"

@@ -1,5 +1,6 @@
 services:
   app:
-    image: trainwithshubham/e-commerce-python:latest
+    build: .
+    image: rashidkhan6685/e-commerce-app:latest
     ports:
       - "80:8080"

@@ -1,0 +1,29 @@
+# GOAL: Run a workflow on our custom EC2 Self-Hosted Runner
+name: Day 42 - Self-Hosted Runner Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ec2-job:
+    # Notice this! We are telling GitHub to use OUR runner, not theirs.
+    runs-on: self-hosted
+    steps:
+      - name: Print EC2 Hostname
+        run: |
+          echo "Hostname of the machine:"
+          hostname
+          
+      - name: Print Working Directory
+        run: |
+          echo "Current Working Directory EC2:"
+          pwd
+
+      - name: Create a Proof File
+        run: |
+          echo "This file was created by a GitHub Action on my EC2 runner!" > my-proof.txt
+          echo "File successfully created. Showing directory contents:"
+          ls -l my-proof.txt
+          cat my-proof.txt
+          
+          

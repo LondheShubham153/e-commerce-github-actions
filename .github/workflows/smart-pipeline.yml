@@ -1,0 +1,44 @@
+# Goal: Combine multi-job, conditionals, and context variables into a smart pipeline.
+# lint and test run in parallel. summary runs after both and prints dynamic info.
+
+name: Day 44 - Smart Pipeline
+
+on:
+    push:
+
+jobs:
+    lint:
+        name: Lint Code
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run Linter
+              run: echo "Linting code... checking syntax."
+
+    test:
+        name: Run Unit Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run Tests
+              run: echo "Running tests... all passed."
+
+    summary:
+        name: Pipeline Summary
+        runs-on: ubuntu-latest
+        needs: [lint, test]  # Wait for both lint and test jobs to complete
+        steps:
+            - name: Check Branch - Main
+              if: github.ref == 'refs/heads/main'
+              run: | 
+                echo "Branch Type: This is a push to the MAIN branch."
+
+            - name: Check Branch - Feature
+              if: github.ref != 'refs/heads/main'
+              run: | 
+                echo "Branch Type: This is a push to a FEATURE branch."
+
+            - name: Print Commit Message
+              env:
+                COMMIT_MSG: ${{ github.event.head_commit.message }}
+              run: |
+                echo "=== Commit Details ==="
+                echo "Commit Message: $COMMIT_MSG"

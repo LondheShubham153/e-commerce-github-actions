@@ -1,0 +1,25 @@
+# Goal: Generate a file during the CI run and save it as a downloadable artifact.
+name: Day 44 - Task 3 Upload Artifact
+
+on:
+    workflow_dispatch:
+
+jobs:
+    upload-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate a test report file
+              run: |
+                echo "=== Daily test report ===" > test-report.txt
+                echo "Status: All 50 unit tests passed successfully!" >> test-report.txt
+                echo "Coverage: 95%" >> test-report.txt
+                echo "Generated on: $(date)" >> test-report.txt
+
+                echo "File contents generated:"
+                cat test-report.txt
+
+            - name: Upload Artifact to GitHub Actions
+              uses: actions/upload-artifact@v4
+              with:
+                name: daily-test-report
+                path: test-report.txt

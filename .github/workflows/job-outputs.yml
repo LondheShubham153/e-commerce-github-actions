@@ -1,0 +1,31 @@
+# Goal: Pass data from one jopb to another using job outputs.
+# Job 1 generates the current date, and job 2 reads and prints it.
+
+name: Day 43 - Job Outputs
+
+on:
+  workflow_dispatch:
+
+jobs:
+    generate-date:
+        name: Generate Output Job
+        runs-on: ubuntu-latest
+        outputs:
+            current-date: ${{ steps.set_date.outputs.date }}
+        steps:
+            - name: Set Current Date
+              id: set_date
+              run: |
+                    # Modern way to set output in GitHub Actions 
+                    echo "date=$(date)" >> $GITHUB_OUTPUT
+                    echo "Date generated and saved to GITHUB_OUTPUT"
+
+    read-date:
+        name: Print Output Job
+        runs-on: ubuntu-latest
+        needs: generate-date
+        steps:
+            - name: Print the recieved date from the previous job
+              run: |
+                    echo "=== Output from Previous Job ===" 
+                    echo "The date recieved is: ${{ needs.generate-date.outputs.current-date }}"

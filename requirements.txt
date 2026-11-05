@@ -1,4 +1,4 @@
 flask
 gunicorn
 pytest
-ruff
+requests==2.31.0

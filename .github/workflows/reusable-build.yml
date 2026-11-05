@@ -1,0 +1,55 @@
+# Goal: A reusable workflow to standardize the build process across multiple repositories.
+
+name: Reusable build workflow
+
+on:
+    workflow_call:
+        inputs:
+            app_name:
+                description: 'Name of the Application'
+                required: true
+                type: string
+            environment:
+                description: 'Deploymnet environment'
+                required: true 
+                default: 'staging'
+                type: string 
+        secrets:
+            docker_token:
+                description: 'Docker Hub token'
+                required: true
+        outputs:
+            build_version:
+                description: "The generated build version string"
+                value: ${{ jobs.build.outputs.version }}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.set_version.outputs.version_tag }}
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v7
+
+            - name: print build details
+              run: |
+                echo "Building ${{ inputs.app_name }} for ${{ inputs.environment }}"
+
+            - name: Verify secret presence 
+              run: |
+                # Check if secret exists without printing its actual value
+                if [ -n "${{ secrets.docker_token }}" ]; then
+                  echo "Docker token is set: true"
+                else
+                  echo "Docker token is set: false"
+                fi
+
+            - name: Generated and set version output
+              id: set_version
+              run: |
+                SHORT_SHA=$(git rev-parse --short HEAD)
+                VERSION="v1.0-$SHORT_SHA"
+                echo "version_tag=$VERSION" >> $GITHUB_OUTPUT
+                echo "Generated version: $VERSION"
+                

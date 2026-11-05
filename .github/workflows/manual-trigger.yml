@@ -1,0 +1,26 @@
+# GOAL: Manually trigger a workflow with custom user inputs
+name: Manual Deploy Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Target Environment (Staging/production)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production 
+
+jobs:
+  manual-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Print Target Environment
+        # Direct modern syntax with a non-reserved variable name
+        run: echo "Deploying application to the ${{ inputs.target_env }} environment!"
+        

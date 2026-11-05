@@ -1,0 +1,46 @@
+# Goal: Control workflow execution using if conditions.
+# Demonstrate branch conditions, event conditions, error handling, and failure catching.
+
+name: Day 43 - Conditionals
+
+on:
+    #push:
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    smart-job:
+        name: Conditional Operations Job
+        # 1. Job runs only on 'push' or manual trigger (won't run on PRs)
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        runs-on: ubuntu-latest
+
+        steps:
+            # 2. Step runs only if the branch is 'main'
+            - name: 1. Main Branch Only Step
+              if: github.ref == 'refs/heads/main'
+              run: | 
+                    echo "This step runs only on the main branch."
+            
+            # 3. Step taht fails but we ignore the error and continue
+            - name: 2. Ignore Error Step
+              continue-on-error: true
+              run: |
+                    echo "I am going to fail by running an invalid command..."
+                    invalid_command_here  # This will fail, but the workflow will continue due to 'continue-on-error: true'
+
+            - name: 3. Normal Success Step
+              run: |
+                    echo "I am running normally because the previous error was ignored."
+
+            # 4. A step that actually fails and stops thr normal flow
+            #- name: 4. Intentional Failure Step
+              #run: |
+                    #echo "I am going to cause a real failure now..."
+                    #exit 1  # This will cause the job to fail and stop further execution of steps"
+
+            # 5. Step runs only if the previous step failed (using 'failure()' function)
+            #- name: 5. Catch Failure Step
+             #if: failure()
+              #run: | 
+               #     echo "Executing this because a previous step failed! (Perfect for Slack alerts)"

@@ -1,0 +1,40 @@
+# GOAL: Run 3 parallel jobs on different GitHub-hosted Operating Systems (ubuntu-latest, windows-latest, macos-latest)
+name: Day 42 - GitHub Hosted Runners
+
+# 'on' defines the trigger. 'workflow_dispatch' allows you to manually trigger the workflow from the Actions tab in your repository.
+on:
+  workflow_dispatch:
+
+# 'jobs' groups all the different machines/tasks we want to run
+jobs:
+  # Job 1: Ubuntu Environment 
+  ubuntu-job:
+    # 'runs-on' specifies the GitHub-hosted OS image.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Ubuntu OS Info
+        run: |
+          echo "Operating System: ${{ runner.os }}"
+          echo "Hostname: $(hostname)"
+          echo "Current User: $(whoami)"
+
+
+  # Job 2: Windows Environment
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Print Windows OS Info
+        run: | 
+          echo "Operating System: ${{ runner.os }}"
+          echo "Hostname: $env:COMPUTERNAME"
+          echo "Current User: $env:USERNAME"
+
+  # Job 3: MacOS Environment
+  macos-job:
+    runs-on: macos-latest
+    steps:
+      - name: Print MacOS OS Info
+        run: |
+          echo "Operating System: ${{ runner.os }}"
+          echo "Hostname: $(hostname)"
+          echo "Current User: $(whoami)"

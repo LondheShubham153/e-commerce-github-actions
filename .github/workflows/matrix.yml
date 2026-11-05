@@ -1,0 +1,40 @@
+# GOAL: Run parallel jobs across different OS and Python versions 
+name: Matrix Build Pipeline
+
+on:
+  #push:
+    #branches: [ main ]
+  workflow_dispatch: # Added manual trigger just in case you want to rerun it easily
+
+jobs:
+  multi-env-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Do not cancel other jobs if one fails
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+        exclude:
+          - os: windows-latest
+            python-version: "3.10"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Print Environment Info
+        # Using a simple python command to print the version and OS
+        run: python -c "import sys; print(f'Running Python {sys.version.split()[0]} on ${{ matrix.os }}')"
+      - name: Intentional Error (To test fail-fast)
+        # This will ONLY fail the Ubuntu + Python 3.11 job
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: |
+          echo "Simulating a crash..."
+          exit 1 
+          

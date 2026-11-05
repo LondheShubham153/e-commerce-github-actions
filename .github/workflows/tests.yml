@@ -1,0 +1,18 @@
+# Goal: First pipeline in the chain. This runs tests.
+
+name: Run Tests
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    run-unit-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Simulating Tests
+              run: |
+                echo "Running unit tests..."
+                sleep 5
+                echo "✅ All tests passed successfully!"

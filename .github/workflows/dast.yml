@@ -3,7 +3,7 @@
 name: DAST
 
 on: 
-    workflow_call
+  workflow_call:
 
 jobs:
     dast:
@@ -13,8 +13,10 @@ jobs:
               uses: actions/checkout@v7
 
             - name: Wait for services to be healthy
+              env:
+                EC2_HOST_IP: ${{ secrets.EC2_HOST }}
               run: |
-                timeout 60s sh -c 'until curl -s http://${{ secrets.EC2_HOST }} > /dev/null; do sleep 2; done'
+                timeout 60s sh -c 'until curl -s http://$EC2_HOST_IP > /dev/null; do sleep 2; done'
 
             # Scan the running application 
             - name: OWASP ZAP Baseline Scan

@@ -1,0 +1,31 @@
+# Goal: Speed up workflows by caching downloaded dependencies between runs.
+
+name: Day 44 - Task 6 Caching
+
+on:
+    workflow_dispatch:
+
+jobs:
+    cache-test-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check for cached dependencies
+              id: cache-step
+              uses: actions/cache@v4
+              with:
+                path: fake-dependencies-folder
+                key: my-dependency-cache-v1
+
+            - name: Install heavy dependencies 
+
+              if: steps.cache-step.outputs.cache-hit != 'true'
+              run: |
+                echo "Cache miss! Downloading heavy dependencies from internet..."
+                sleep 10 # simulating a 10-second heavy download 
+                mkdir -p fake-dependencies-folder
+                echo "Dependencies successfully installed." > fake-dependencies-folder/status.txt
+
+            - name: Run Application
+              run: |
+                echo "=== Starting App ==="
+                cat fake-dependencies-folder/status.txt

@@ -1,0 +1,35 @@
+# Goal: Demonstrate Environment Variables at Workflow, Job, and Step levels
+# Also, use GitHub Context variables to fetch dynamic info like the user and commit SHA.
+
+name: Day 43 - Environment Variables
+
+on:
+  workflow_dispatch:
+
+# 1. WORKFLOW LEVEL VARIABLE (Accessible everywhere in this file)
+env:
+    APP_NAME: "MyApp"
+
+jobs:
+    print-vars:
+        runs-on: ubuntu-latest
+        
+        # 2. JOB LEVEL VARIABLE (Accessible only inside this 'print-vars' job)
+        env:
+            ENVIRONMENT: staging
+
+        steps:
+            - name: Print Custom Environment Variables 
+              # 3. STEP LEVEL VARIABLE (Accessible only inside this specific step)
+              env:
+                  VERSION: 1.0.0
+              run: |
+                  echo "=== Custom Environment Variables ==="
+                  echo "App Name (Workflow Level): $APP_NAME"
+                  echo "Environment (Job Level): $ENVIRONMENT"
+                  echo "Version (Step Level): $VERSION"
+            - name: Print GitHub Context Variables
+              run: |
+                  echo "=== GitHub Default Variables ==="
+                  echo "Triggered by Actor: ${{ github.actor }}"
+                  echo "Commit SHA: ${{ github.sha }}"

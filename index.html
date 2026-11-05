@@ -1,166 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nova — Modern Store</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Inter, Arial, sans-serif; color: #171717; background: #fafafa; }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; cursor: pointer; border: 0; }
-    .container { width: min(1180px, 92%); margin: auto; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOVA PRIME — Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c0f;
+    --surface:#121519;
+    --surface-2:#181c21;
+    --line:#23282e;
+    --text:#eef1f3;
+    --muted:#8b939c;
 
-    header {
-      position: sticky; top: 0; z-index: 10;
-      background: rgba(255,255,255,.94); backdrop-filter: blur(10px);
-      border-bottom: 1px solid #eee;
-    }
-    .nav { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
-    .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
-    .nav-links { display: flex; gap: 28px; font-size: 14px; color: #555; }
-    .nav-links a:hover { color: #000; }
-    .cart { background: #111; color: #fff; padding: 11px 16px; border-radius: 999px; font-size: 14px; }
+    --nova:#7fb4e0;
+    --nova-dim:#3d5f78;
+    --prime:#ff7a29;
+    --prime-dim:#7a4321;
 
-    .hero {
-      margin-top: 28px; min-height: 430px; border-radius: 28px; overflow: hidden;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,.7), rgba(0,0,0,.08)),
-        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1800&q=85") center/cover;
-      display: flex; align-items: center; color: white;
-    }
-    .hero-content { max-width: 570px; padding: 55px; }
-    .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: 700; opacity: .8; }
-    h1 { font-size: clamp(42px, 6vw, 72px); line-height: .95; letter-spacing: -4px; margin: 16px 0; }
-    .hero p { font-size: 17px; line-height: 1.6; color: #eee; margin-bottom: 25px; }
-    .btn { display: inline-block; background: white; color: #111; padding: 13px 20px; border-radius: 999px; font-weight: 700; }
+    --accent:var(--nova);
+    --accent-dim:var(--nova-dim);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    transition:background .5s ease;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;cursor:pointer;border:0;outline:none;background:none;color:inherit;}
+  .container{width:min(1180px,92%);margin:auto;}
+  ::selection{background:var(--accent);color:#000;}
 
-    section { padding: 70px 0 10px; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 25px; }
-    .section-head h2 { font-size: 32px; letter-spacing: -1.5px; }
-    .section-head span { color: #777; font-size: 14px; }
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,12,15,0.82);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{height:76px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-size:20px;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:baseline;gap:6px;}
+  .logo .n{color:var(--text);}
+  .logo .p{color:var(--accent);transition:color .5s ease;}
 
-    .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .card { background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; transition: .2s; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.08); }
-    .card img { width: 100%; height: 270px; object-fit: cover; display: block; background: #f3f3f3; }
-    .info { padding: 17px; }
-    .category { color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-    .name { font-weight: 700; margin: 7px 0 12px; }
-    .price-row { display: flex; justify-content: space-between; align-items: center; }
-    .price { font-weight: 800; }
-    .add { width: 34px; height: 34px; border-radius: 50%; background: #111; color: white; }
+  .nav-links{display:flex;gap:30px;font-size:14px;color:var(--muted);}
+  .nav-links a{transition:color .25s ease;}
+  .nav-links a:hover{color:var(--text);}
 
-    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 65px 0; }
-    .feature { background: #f1f1ed; padding: 25px; border-radius: 18px; }
-    .feature b { display: block; margin-bottom: 8px; }
-    .feature p { color: #666; font-size: 14px; line-height: 1.5; }
+  .nav-right{display:flex;align-items:center;gap:20px;}
 
-    footer { margin-top: 50px; padding: 35px 0; border-top: 1px solid #eee; color: #777; font-size: 13px; }
+  /* toggle */
+  .brand-toggle{
+    position:relative;
+    display:flex;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:3px;
+    width:150px;
+    height:36px;
+  }
+  .brand-toggle button{
+    flex:1;position:relative;z-index:2;
+    font-size:12px;font-weight:700;letter-spacing:0.5px;
+    color:var(--muted);
+    border-radius:999px;
+    transition:color .35s ease;
+  }
+  .brand-toggle button.active{color:#05070a;}
+  .toggle-pill{
+    position:absolute;top:3px;left:3px;
+    width:calc(50% - 3px);height:calc(100% - 6px);
+    border-radius:999px;
+    background:var(--accent);
+    transition:transform .35s cubic-bezier(.65,0,.35,1), background .5s ease;
+  }
+  .brand-toggle[data-active="prime"] .toggle-pill{transform:translateX(calc(100% + 0px));}
 
-    @media (max-width: 900px) {
-      .products { grid-template-columns: repeat(2, 1fr); }
-      .features { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 560px) {
-      .hero-content { padding: 32px; }
-      h1 { letter-spacing: -2px; }
-      .products { grid-template-columns: 1fr; }
-      .card img { height: 320px; }
-    }
-  </style>
+  .cart{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    padding:10px 18px;border-radius:999px;
+    font-size:13px;font-weight:600;
+    transition:border-color .3s ease;
+  }
+  .cart:hover{border-color:var(--accent);}
+
+  /* HERO */
+  .hero{
+    margin-top:28px;min-height:460px;border-radius:20px;overflow:hidden;
+    position:relative;display:flex;align-items:flex-end;
+    border:1px solid var(--line);
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1800&q=80") center/cover;
+    filter:contrast(1.12) saturate(1.1) brightness(0.86);
+    transition:filter .6s ease;
+  }
+  .hero-tint{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(100deg, rgba(6,8,10,0.94) 0%, rgba(6,8,10,0.68) 32%, rgba(6,8,10,0.22) 58%, rgba(6,8,10,0) 78%),
+      linear-gradient(0deg, rgba(6,8,10,0.8) 0%, rgba(6,8,10,0) 40%);
+  }
+  .hero-tint::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 10% 15%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 55%);
+    mix-blend-mode:overlay;
+    transition:background .5s ease;
+  }
+  .hero-content{position:relative;z-index:2;padding:52px;max-width:560px;}
+  .kicker{
+    font-size:13px;font-weight:600;color:var(--accent);
+    margin-bottom:14px;transition:color .5s ease;
+  }
+  h1{
+    font-size:clamp(34px,4.4vw,52px);
+    line-height:1.08;letter-spacing:-1.2px;font-weight:800;
+    margin-bottom:16px;
+  }
+  .hero p{font-size:15px;line-height:1.6;color:var(--muted);margin-bottom:28px;max-width:420px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent);color:#05070a;
+    padding:13px 26px;border-radius:999px;font-weight:700;font-size:14px;
+    transition:background .5s ease, transform .25s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+
+  /* SECTIONS */
+  section{padding:64px 0;}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;}
+  .section-head h2{font-size:24px;font-weight:800;letter-spacing:-0.5px;}
+  .section-head span{color:var(--muted);font-size:14px;}
+
+  .products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;overflow:hidden;
+    transition:opacity .4s ease, transform .35s ease, border-color .3s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--accent-dim);}
+  .card.hide{
+    opacity:0;transform:scale(0.96);
+    pointer-events:none;position:absolute;visibility:hidden;
+  }
+  .img-wrap{
+    height:230px;overflow:hidden;position:relative;
+    padding:18px;
+    background:linear-gradient(160deg,#e9e5dd 0%,#d9d4c9 100%);
+    border-radius:16px 16px 0 0;
+  }
+  .card img{width:100%;height:100%;object-fit:contain;filter:contrast(1.04) saturate(1.03);transition:transform .5s ease;}
+  .card:hover img{transform:scale(1.05);}
+  .wish{
+    position:absolute;top:12px;right:12px;z-index:2;
+    width:32px;height:32px;border-radius:50%;
+    background:rgba(6,8,10,0.55);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .25s ease;
+  }
+  .wish svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;transition:fill .25s ease, stroke .25s ease;}
+  .wish.active svg{fill:var(--accent);stroke:var(--accent);}
+  .wish:hover{background:rgba(6,8,10,0.8);}
+  .info{padding:18px 18px 20px;}
+  .tag{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.4px;
+    color:var(--accent);margin-bottom:8px;transition:color .5s ease;
+  }
+  .name{font-weight:600;font-size:15px;margin-bottom:14px;color:var(--text);}
+  .price-row{display:flex;justify-content:space-between;align-items:center;}
+  .price{font-weight:700;font-size:15px;}
+  .add{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--surface-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;transition:all .3s ease;
+  }
+  .card:hover .add{background:var(--accent);color:#05070a;border-color:var(--accent);}
+
+  .products-wrap{position:relative;}
+
+  /* FEATURES */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .feature{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;border-radius:16px;
+  }
+  .feature b{display:block;margin-bottom:8px;font-size:15px;font-weight:700;}
+  .feature p{color:var(--muted);font-size:13px;line-height:1.6;}
+
+  #toast{
+    position:fixed;bottom:28px;left:50%;
+    transform:translate(-50%, 20px);
+    background:var(--surface-2);border:1px solid var(--line);
+    color:var(--text);padding:12px 20px;border-radius:999px;
+    font-size:13px;font-weight:600;
+    display:flex;align-items:center;gap:10px;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:100;
+  }
+  #toast.show{opacity:1;transform:translate(-50%, 0);}
+  #toast .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+
+  footer{
+    padding:32px 0;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px;
+    display:flex;justify-content:space-between;
+  }
+
+  @media (max-width:900px){
+    .products{grid-template-columns:repeat(2,1fr);}
+    .features{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .hero-content{padding:32px;}
+  }
+</style>
 </head>
 <body>
 
 <header>
   <div class="container nav">
-    <div class="logo">NOVA.</div>
+    <div class="logo"><span class="n">NOVA</span><span class="p">PRIME</span></div>
     <nav class="nav-links">
-      <a href="#">New arrivals</a>
+      <a href="#">New</a>
       <a href="#">Men</a>
       <a href="#">Women</a>
-      <a href="#">Accessories</a>
+      <a href="#shop">Shop</a>
     </nav>
-    <button class="cart" onclick="showCart()">Cart (<span id="cartCount">0</span>)</button>
+    <div class="nav-right">
+      <div class="brand-toggle" id="brandToggle" data-active="nova">
+        <div class="toggle-pill"></div>
+        <button data-brand="nova" class="active" onclick="setBrand('nova')">NOVA</button>
+        <button data-brand="prime" onclick="setBrand('prime')">PRIME</button>
+      </div>
+      <button class="cart" onclick="showCart()">Cart (<span id="cartCount">0</span>)</button>
+    </div>
   </div>
 </header>
 
 <main class="container">
   <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-tint"></div>
     <div class="hero-content">
-      <div class="eyebrow">New season / 2026</div>
-      <h1>Everyday essentials, elevated.</h1>
-      <p>Thoughtfully designed pieces for modern everyday living. Clean, comfortable and made to last.</p>
-      <a class="btn" href="#shop">Shop collection →</a>
+      <div class="kicker" id="kicker">NOVA — COLD COLLECTION</div>
+      <h1 id="heroTitle">Built for quiet, cold nights.</h1>
+      <p id="heroText">Muted tones and weatherproof pieces from the Nova line — steady, understated, built to last through winter.</p>
+      <a class="btn" href="#shop">Shop Nova →</a>
     </div>
   </section>
 
   <section id="shop">
     <div class="section-head">
       <h2>Featured products</h2>
-      <span>Curated for you</span>
+      <span id="sectionTag">Nova line</span>
     </div>
 
-    <div class="products">
-      <article class="card">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80" alt="Minimal watch">
-        <div class="info">
-          <div class="category">Accessories</div>
-          <div class="name">Minimal Chronograph</div>
-          <div class="price-row"><span class="price">₹8,499</span><button class="add" onclick="addToCart()">+</button></div>
-        </div>
-      </article>
+    <div class="products-wrap">
+      <div class="products">
+        <article class="card" data-brand="nova">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80" alt="Grey parka jacket"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">NOVA</div>
+            <div class="name">Glacier Parka</div>
+            <div class="price-row"><span class="price">₹7,999</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
 
-      <article class="card">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Running shoes">
-        <div class="info">
-          <div class="category">Footwear</div>
-          <div class="name">Urban Runner</div>
-          <div class="price-row"><span class="price">₹6,999</span><button class="add" onclick="addToCart()">+</button></div>
-        </div>
-      </article>
+        <article class="card" data-brand="nova">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80" alt="Grey knit hoodie"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">NOVA</div>
+            <div class="name">Frost Knit Hoodie</div>
+            <div class="price-row"><span class="price">₹3,299</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
 
-      <article class="card">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80" alt="Black backpack">
-        <div class="info">
-          <div class="category">Bags</div>
-          <div class="name">Everyday Backpack</div>
-          <div class="price-row"><span class="price">₹4,299</span><button class="add" onclick="addToCart()">+</button></div>
-        </div>
-      </article>
+        <article class="card" data-brand="nova">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Running shoes"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">NOVA</div>
+            <div class="name">Urban Runner</div>
+            <div class="price-row"><span class="price">₹6,999</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
 
-      <article class="card">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80" alt="Sunglasses">
-        <div class="info">
-          <div class="category">Accessories</div>
-          <div class="name">Aero Sunglasses</div>
-          <div class="price-row"><span class="price">₹2,499</span><button class="add" onclick="addToCart()">+</button></div>
-        </div>
-      </article>
+        <article class="card" data-brand="nova">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=700&q=80" alt="Black leather boots"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">NOVA</div>
+            <div class="name">Arctic Trail Boots</div>
+            <div class="price-row"><span class="price">₹5,499</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="nova">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80" alt="Chronograph watch"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">NOVA</div>
+            <div class="name">Prime Chronograph</div>
+            <div class="price-row"><span class="price">₹8,499</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="prime">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=700&q=80" alt="Orange bomber jacket"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">PRIME</div>
+            <div class="name">Ember Bomber Jacket</div>
+            <div class="price-row"><span class="price">₹6,499</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="prime">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80" alt="Orange street t-shirt"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">PRIME</div>
+            <div class="name">Solar Street Tee</div>
+            <div class="price-row"><span class="price">₹1,899</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="prime">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=700&q=80" alt="Orange high-top sneakers"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">PRIME</div>
+            <div class="name">Blaze High-Tops</div>
+            <div class="price-row"><span class="price">₹5,999</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="prime">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80" alt="Black backpack"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">PRIME</div>
+            <div class="name">Vanguard Backpack</div>
+            <div class="price-row"><span class="price">₹4,299</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+
+        <article class="card" data-brand="prime">
+          <div class="img-wrap"><img loading="lazy" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80" alt="Sunglasses"><button class="wish" onclick="toggleWish(event)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.4C.7 9.1 2.7 5.6 6.3 5.2c2-.2 3.8.8 5.7 2.8 1.9-2 3.7-3 5.7-2.8 3.6.4 5.6 3.9 3.8 7.4C19 16.7 12 21 12 21z"/></svg></button></div>
+          <div class="info">
+            <div class="tag">PRIME</div>
+            <div class="name">Aero Sunglasses X</div>
+            <div class="price-row"><span class="price">₹2,499</span><button class="add" onclick="addToCart(event)">+</button></div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <div class="features">
-    <div class="feature"><b>Free shipping</b><p>Free delivery on orders above ₹999.</p></div>
+    <div class="feature"><b>Priority shipping</b><p>Free next-day delivery on orders above ₹999.</p></div>
     <div class="feature"><b>Easy returns</b><p>Simple 14-day returns on eligible products.</p></div>
-    <div class="feature"><b>Secure checkout</b><p>Your payments and personal information stay protected.</p></div>
+    <div class="feature"><b>Secure checkout</b><p>Enterprise-grade protection for your payments.</p></div>
   </div>
 </main>
 
 <footer>
-  <div class="container">© 2026 NOVA. — Built for modern shopping.</div>
+  <div class="container" style="display:flex;justify-content:space-between;width:100%;">
+    <div>© 2026 NOVA PRIME.</div>
+    <div>Cold on one side. Warm on the other.</div>
+  </div>
 </footer>
+
+<div id="toast"><span class="dot"></span><span id="toastMsg">Added to cart</span></div>
 
 <script>
   let count = 0;
-  function addToCart() {
+  let toastTimer;
+  function addToCart(e) {
+    if (e) e.stopPropagation();
     count++;
     document.getElementById("cartCount").textContent = count;
+    const name = e ? e.target.closest('.card').querySelector('.name').textContent : 'Item';
+    showToast(`${name} added to cart`);
   }
   function showCart() {
     alert(count ? `You have ${count} item${count > 1 ? "s" : ""} in your cart.` : "Your cart is empty.");
   }
+  function toggleWish(e) {
+    e.stopPropagation();
+    const btn = e.target.closest('.wish');
+    btn.classList.toggle('active');
+    if (btn.classList.contains('active')) {
+      const name = btn.closest('.card').querySelector('.name').textContent;
+      showToast(`${name} saved to wishlist`);
+    }
+  }
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  const copy = {
+    nova: {
+      kicker: "NOVA — COLD COLLECTION",
+      title: "Built for quiet, cold nights.",
+      text: "Muted tones and weatherproof pieces from the Nova line — steady, understated, built to last through winter.",
+      cta: "Shop Nova →",
+      tag: "Nova line"
+    },
+    prime: {
+      kicker: "PRIME — HEAT COLLECTION",
+      title: "Bold pieces for loud days.",
+      text: "Warm tones and statement pieces from the Prime line — high energy, high contrast, made to stand out.",
+      cta: "Shop Prime →",
+      tag: "Prime line"
+    }
+  };
+
+  function setBrand(brand) {
+    const root = document.documentElement;
+    root.style.setProperty('--accent', brand === 'prime' ? 'var(--prime)' : 'var(--nova)');
+    root.style.setProperty('--accent-dim', brand === 'prime' ? 'var(--prime-dim)' : 'var(--nova-dim)');
+
+    document.getElementById('brandToggle').dataset.active = brand;
+    document.querySelectorAll('.brand-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.brand === brand);
+    });
+
+    document.getElementById('kicker').textContent = copy[brand].kicker;
+    document.getElementById('heroTitle').textContent = copy[brand].title;
+    document.getElementById('heroText').textContent = copy[brand].text;
+    document.querySelector('.btn').textContent = copy[brand].cta;
+    document.getElementById('sectionTag').textContent = copy[brand].tag;
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.classList.toggle('hide', card.dataset.brand !== brand);
+    });
+  }
+
+  setBrand('nova');
 </script>
 
 </body>

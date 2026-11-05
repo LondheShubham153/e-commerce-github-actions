@@ -1,0 +1,16 @@
+# GOAL: Target a specific self-hosted runner using custom labels
+name: Day 42 - Runner Labels Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  targeted-job:
+    # We are telling GitHub to use OUR runner, but only the one with the label 'my-linux-runner'
+    runs-on: [self-hosted, my-linux-runner]
+    steps:
+      - name: Print Label Success
+        run: |
+          echo "Successfully targeted the specific EC2 runner using the my-linux-runner label!"
+          echo "Running on Hostname: $(hostname)"
+  

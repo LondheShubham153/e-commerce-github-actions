@@ -1,0 +1,26 @@
+# Goal: Second pipeline, Triggers only after 'Run Tests' is completed.
+
+name: Deploy After tests
+
+on:
+    workflow_run:
+        workflows: ["Run Tests"]
+        types: [completed]
+
+jobs:
+    deploy-app:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Verify Test Status
+              run: |
+                # Check if the triggering workflow was a success
+                if [ "${{ github.event.workflow_run.conclusion }}" != "success" ]; then
+                  echo "::warning::Tests failed or were cancelled. Aborting deployment!"
+                  exit 1
+                fi
+                echo "✅ Tests passed! Proceeding with deployment..."
+                
+            - name: Execute Deployment
+              run: |
+                echo "🚀 Deploying the application to production server..."
+                

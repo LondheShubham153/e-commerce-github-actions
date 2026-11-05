@@ -1,0 +1,37 @@
+# Goal: Create a multi-job workflow that runs on a strict dependency chain
+# The 'test' job will only run if 'build' succeeds, and 'deploy' will only run if 'test' succeeds.
+
+name: Day 43 - Multi-Job Workflow
+on:
+  workflow_dispatch:
+
+jobs:
+    # JOB 1: Build the application
+    build:
+        name: Build Job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v7
+
+            - name: Build Application
+              run: echo "Building the application..."
+
+    # JOB 2: Test the application, dependent on the 'build' job
+    test:
+        name: Test Job
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Run Tests
+              run: echo "Running tests..."
+
+    # JOB 3: Deploy the application, dependent on the 'test' job
+    deploy:
+        name: Deploy Job
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: Deploy Application
+              run: echo "Deploying the application..." 
+

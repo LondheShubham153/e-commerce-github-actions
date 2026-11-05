@@ -1,0 +1,33 @@
+# GOAL: Run pipeline only on Pull Requests targeting main branch
+name: PR check Workflow
+
+on:
+  pull_request:
+    branches: 
+      - main
+    types: [opened, synchronize]
+  workflow_dispatch: # Added manual trigger just in case you want to rerun it easily
+
+permissions:
+  contents: read
+
+jobs:
+  # Verify the PR Branch
+  pr-verification:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out the Repository code
+      - name: Checkout Code
+        uses: actions/checkout@v7
+      
+      - name: Check Dependencies for Vulnerabilities
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+          
+      # Print the source branch of PR
+      - name: Print Branch Name
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          echo "PR check running for branch: $HEAD_REF"

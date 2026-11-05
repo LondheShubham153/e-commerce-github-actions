@@ -1,0 +1,18 @@
+# Goal: Trigger only when code in src/ or app/ changes on main or release branches 
+name: Smart Trigger 
+
+on:
+    push:
+        branches:
+            - main
+            - 'release/*'
+        paths:
+            - 'src/**'
+            - 'app/**'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "This runs because a file in src/ or app/ was changed!"
+            

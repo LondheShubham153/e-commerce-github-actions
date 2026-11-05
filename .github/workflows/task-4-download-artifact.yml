@@ -1,0 +1,40 @@
+# Goal: Demonstrate passing files across isolated VMs using upload and download artifacts in GitHub Actions.
+
+name: Day 44 - Task 4 Download Artifact
+
+on:
+    workflow_dispatch:
+
+jobs:
+    job-producer:
+        name: Generate and Upload Report
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate and upload report file
+              run: |
+                echo "=== Cross-job Artifact Data ===" > production-metrics.log
+                echo "Environment: Production Staging" >> production-metrics.log
+                echo "Build Status: Healthy" >> production-metrics.log
+
+            - name: Upload Artifact to GitHub Actions
+              uses: actions/upload-artifact@v4
+              with:
+                name: staging-metrics
+                path: production-metrics.log
+
+    job-consumer:
+        name: Download and Use Report
+        runs-on: ubuntu-latest
+        needs: job-producer  # Ensure this job runs after the producer job
+        steps:
+            - name: Download Artifact from Previous Job
+              uses: actions/download-artifact@v4
+              with:
+                name: staging-metrics
+
+            - name: Verify and read downloaded file contents 
+              run: |
+                echo "=== Reading Downloaded Artifact Inside Job 2 ==="
+                ls -la
+                echo ""
+                cat production-metrics.log
